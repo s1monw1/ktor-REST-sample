@@ -13,9 +13,6 @@ buildscript {
     }
 }
 
-
-
-apply plugin: 'java'
 apply plugin: 'kotlin'
 
 sourceCompatibility = 1.8
@@ -34,17 +31,22 @@ compileTestKotlin {
 }
 
 repositories {
+    jcenter()
     mavenCentral()
-    maven { url  "http://dl.bintray.com/kotlin/ktor" }
+    maven { url "http://dl.bintray.com/kotlin/ktor" }
     maven { url "https://dl.bintray.com/kotlin/kotlinx" }
 }
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+    compile "org.jetbrains.kotlinx:kotlinx-html-jvm:0.6.2"
     compile "org.jetbrains.ktor:ktor-core:$ktor_version"
+    compile "org.jetbrains.ktor:ktor-gson:$ktor_version"
+    compile "org.jetbrains.ktor:ktor-html-builder:$ktor_version"
     compile "org.jetbrains.ktor:ktor-netty:$ktor_version"
     compile "ch.qos.logback:logback-classic:1.2.1"
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
 
-
+    testCompile "org.jetbrains.ktor:ktor-test-host:$ktor_version"
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }

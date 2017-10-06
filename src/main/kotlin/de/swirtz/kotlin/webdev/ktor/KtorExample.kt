@@ -1,17 +1,14 @@
-import org.jetbrains.ktor.application.*
-import org.jetbrains.ktor.host.*
-import org.jetbrains.ktor.http.*
-import org.jetbrains.ktor.netty.*
-import org.jetbrains.ktor.response.*
-import org.jetbrains.ktor.routing.*
+import de.swirtz.kotlin.webdev.ktor.main
+import org.jetbrains.ktor.application.Application
+import org.jetbrains.ktor.host.embeddedServer
+import org.jetbrains.ktor.netty.Netty
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+
+val LOG: Logger = LoggerFactory.getLogger("ktor-app")
 
 fun main(args: Array<String>) {
-    val server = embeddedServer(Netty, 8080) {
-        routing {
-            get("/") {
-                call.respondText("Hello, world!", ContentType.Text.Html)
-            }
-        }
-    }
-    server.start(wait = true)
+    embeddedServer(Netty, 8080, module = Application::main).start(wait = true)
 }
+
+
