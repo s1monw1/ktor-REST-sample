@@ -1,7 +1,5 @@
 package de.swirtz.kotlin.webdev.ktor
 
-import com.google.gson.Gson
-import com.sun.org.apache.bcel.internal.generic.GETFIELD
 import de.swirtz.kotlin.webdev.ktor.repo.PersonRepo
 import org.jetbrains.ktor.application.Application
 import org.jetbrains.ktor.http.HttpMethod
@@ -18,6 +16,7 @@ class KtorTest {
     private val personId = 123
     private val content = """{"id":$personId, "name":"Pan", "age":12}"""
     private val json = "application/json"
+
     @After
     fun clear() = PersonRepo.clear()
 

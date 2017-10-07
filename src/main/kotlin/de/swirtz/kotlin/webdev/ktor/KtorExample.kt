@@ -1,4 +1,5 @@
-import de.swirtz.kotlin.webdev.ktor.main
+package de.swirtz.kotlin.webdev.ktor
+
 import org.jetbrains.ktor.application.Application
 import org.jetbrains.ktor.host.embeddedServer
 import org.jetbrains.ktor.netty.Netty
