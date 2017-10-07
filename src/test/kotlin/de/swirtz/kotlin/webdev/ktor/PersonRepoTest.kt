@@ -5,6 +5,7 @@ import de.swirtz.kotlin.webdev.ktor.repo.PersonRepo
 import org.junit.After
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.fail
 
 class PersonRepoTest {
 
@@ -14,11 +15,11 @@ class PersonRepoTest {
     @Test
     fun getTest() {
         assertSize(0)
-        val p = Person(1, "P1", 40)
-        PersonRepo.add(p)
+        val p = Person("P1", 40)
+        val added = PersonRepo.add(p)
         assertSize(1)
-        assertEquals(p, PersonRepo.get(1))
-        assertEquals(p, PersonRepo.get("1"))
+        assertEquals(p, PersonRepo.get(added.id ?: fail()))
+        assertEquals(p, PersonRepo.get(added.id?.toString() ?: fail()))
     }
 
     @Test(expected = IllegalArgumentException::class)
@@ -37,17 +38,18 @@ class PersonRepoTest {
     @Test
     fun saveTest() {
         assertSize(0)
-        PersonRepo.add(Person(1, "P1", 40))
+        val add1 = PersonRepo.add(Person("P1", 40))
         assertSize(1)
-        PersonRepo.add(Person(1, "P1", 40))
+        val add2 = PersonRepo.add(Person("P1", 40))
         assertSize(1)
+        assertEquals(add1, add2)
     }
 
     @Test
     fun deleteTest() {
-        PersonRepo.add(Person(1, "P1", 40))
+        val added = PersonRepo.add(Person("P1", 40))
         assertSize(1)
-        PersonRepo.remove(1)
+        PersonRepo.remove(added.id ?: fail())
         assertSize(0)
     }
 
@@ -63,7 +65,7 @@ class PersonRepoTest {
 
     @Test
     fun deleteByObjectTest() {
-        val p = Person(1, "P1", 40)
+        val p = Person("P1", 40)
         PersonRepo.add(p)
         assertSize(1)
         PersonRepo.remove(p)
@@ -72,7 +74,7 @@ class PersonRepoTest {
 
     @Test(expected = IllegalArgumentException::class)
     fun deleteNonExistingByObjectTest() {
-        PersonRepo.remove(Person(1, "", 1))
+        PersonRepo.remove(Person("", 1))
     }
 
     private fun assertSize(int: Int) {

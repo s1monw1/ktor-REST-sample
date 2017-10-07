@@ -60,8 +60,8 @@ sourceSets {
 
 archivesBaseName = 'ktorapp'
 version = '1.0-SNAPSHOT'
-group = 'example'
-mainClassName = 'de.swirtz.kotlin.webdev.ktor.KtorExampleKt'
+group = 'de.swirtz.kotlin.webdev'
+mainClassName = 'de.swirtz.kotlin.webdev.ktor.KtorServerKt'
 
 jar {
     manifest {

@@ -53,7 +53,7 @@ fun Application.main() {
         post("$REST_ENDPOINT/") {
             val receive = call.receive<Person>()
             println("Received Post Request: $receive")
-            call.respondSuccessJson(PersonRepo.add(receive))
+            call.respond(PersonRepo.add(receive))
         }
         get("/") {
             call.respondHtml {
