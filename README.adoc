@@ -1,0 +1,12 @@
+# ktor Example Application
+
+Shows usage of Kotlin library ktor: Simple REST Server exposing JSON API for `Person` entities.
+
+
+## Build and Run
+
+The app is backed by gradle. Build with `gradle build`, Run with `gradle run`.
+
+Optionally configure the port (default 8080) by passing --server.port=xxxx as an application argument to `java -jar` command:
+
+`java -jar ktorapp-version.jar --server.port=1234`
