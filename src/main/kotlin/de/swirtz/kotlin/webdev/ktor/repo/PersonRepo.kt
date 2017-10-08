@@ -3,7 +3,7 @@ package de.swirtz.kotlin.webdev.ktor.repo
 import java.util.concurrent.CopyOnWriteArraySet
 import java.util.concurrent.atomic.AtomicInteger
 
-object PersonRepo {
+object PersonRepo  {
 
     private val idCounter = AtomicInteger()
     private val persons = CopyOnWriteArraySet<Person>()

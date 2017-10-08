@@ -26,6 +26,7 @@ const val REST_ENDPOINT = "/persons"
 
 
 fun Application.main() {
+
     install(DefaultHeaders)
     install(CORS) {
         maxAge = Duration.ofDays(1)

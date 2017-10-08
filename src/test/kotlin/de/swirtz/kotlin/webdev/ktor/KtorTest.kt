@@ -12,11 +12,14 @@ import org.jetbrains.ktor.testing.withTestApplication
 import org.junit.After
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.fail
 
 class KtorTest {
 
     private val content = """{"name":"Pan", "age":12}"""
     private val json = "application/json"
+
+    private val gson = Gson()
 
     @After
     fun clear() = PersonRepo.clear()
@@ -29,8 +32,25 @@ class KtorTest {
     }
 
     @Test
+    fun getAllPersonsTest() = withTestApplication(Application::main) {
+        val person = savePerson(gson.toJson(Person("Bert", 40)))
+        val person2 = savePerson(gson.toJson(Person("Alice", 25)))
+        handleRequest(HttpMethod.Get, REST_ENDPOINT) {
+            addHeader("Accept", json)
+        }.response.let {
+            assertEquals(HttpStatusCode.OK, it.status())
+            val response = gson.fromJson(it.content, Array<Person>::class.java)
+            response.forEach { println(it) }
+            response.find { it.name == "Bert" } ?: fail()
+            response.find { it.name == "Alice" } ?: fail()
+        }
+        assertEquals(2, PersonRepo.getAll().size)
+    }
+
+
+    @Test
     fun savePersonTest() = withTestApplication(Application::main) {
-        val person = saveContent()
+        val person = savePerson()
         handleRequest(HttpMethod.Get, "$REST_ENDPOINT/${person.id}") {
             addHeader("Accept", json)
         }.response.let {
@@ -41,7 +61,7 @@ class KtorTest {
 
     @Test
     fun deletePersonTest() = withTestApplication(Application::main) {
-        val person = saveContent()
+        val person = savePerson()
         assertEquals(1, PersonRepo.getAll().size)
         handleRequest(HttpMethod.Delete, "$REST_ENDPOINT/${person.id}") {
             addHeader("Accept", json)
@@ -52,9 +72,9 @@ class KtorTest {
 
     }
 
-    private fun TestApplicationHost.saveContent() :Person{
+    private fun TestApplicationHost.savePerson(person: String = content): Person {
         val post = handleRequest(HttpMethod.Post, REST_ENDPOINT) {
-            body = content
+            body = person
             addHeader("Content-Type", json)
             addHeader("Accept", json)
 
@@ -62,7 +82,7 @@ class KtorTest {
         with(post) {
             assertEquals(HttpStatusCode.OK, response.status())
             println(response.content)
-            return Gson().fromJson(response.content, Person::class.java)
+            return gson.fromJson(response.content, Person::class.java)
         }
     }
 
