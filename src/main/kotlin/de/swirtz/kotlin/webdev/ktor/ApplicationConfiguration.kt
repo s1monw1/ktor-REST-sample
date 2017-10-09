@@ -43,7 +43,7 @@ fun Application.main() {
                 call.respond(PersonRepo.get(id))
             }
         }
-        get("$REST_ENDPOINT/") {
+        get("$REST_ENDPOINT") {
             errorAware {
                 LOG.debug("Get all Person entities")
                 call.respond(PersonRepo.getAll())
@@ -56,14 +56,14 @@ fun Application.main() {
                 call.respondSuccessJson(PersonRepo.remove(id))
             }
         }
-        delete("$REST_ENDPOINT/") {
+        delete("$REST_ENDPOINT") {
             errorAware {
                 LOG.debug("Delete all Person entities")
                 PersonRepo.clear()
                 call.respondSuccessJson()
             }
         }
-        post("$REST_ENDPOINT/") {
+        post("$REST_ENDPOINT") {
             errorAware {
                 val receive = call.receive<Person>()
                 println("Received Post Request: $receive")
