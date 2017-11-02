@@ -3,12 +3,12 @@ package de.swirtz.kotlin.webdev.ktor
 import com.google.gson.Gson
 import de.swirtz.kotlin.webdev.ktor.repo.Person
 import de.swirtz.kotlin.webdev.ktor.repo.PersonRepo
-import org.jetbrains.ktor.application.Application
-import org.jetbrains.ktor.http.HttpMethod
-import org.jetbrains.ktor.http.HttpStatusCode
-import org.jetbrains.ktor.testing.TestApplicationHost
-import org.jetbrains.ktor.testing.handleRequest
-import org.jetbrains.ktor.testing.withTestApplication
+import io.ktor.application.Application
+import io.ktor.http.HttpMethod
+import io.ktor.http.HttpStatusCode
+import io.ktor.server.testing.TestApplicationEngine
+import io.ktor.server.testing.handleRequest
+import io.ktor.server.testing.withTestApplication
 import org.junit.After
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -41,8 +41,8 @@ class KtorTest {
             assertEquals(HttpStatusCode.OK, it.status())
             val response = gson.fromJson(it.content, Array<Person>::class.java)
             response.forEach { println(it) }
-            response.find { it.name == "Bert" } ?: fail()
-            response.find { it.name == "Alice" } ?: fail()
+            response.find { it.name == person.name } ?: fail()
+            response.find { it.name == person2.name } ?: fail()
         }
         assertEquals(2, PersonRepo.getAll().size)
     }
@@ -72,7 +72,7 @@ class KtorTest {
 
     }
 
-    private fun TestApplicationHost.savePerson(person: String = content): Person {
+    private fun TestApplicationEngine.savePerson(person: String = content): Person {
         val post = handleRequest(HttpMethod.Post, REST_ENDPOINT) {
             body = person
             addHeader("Content-Type", json)

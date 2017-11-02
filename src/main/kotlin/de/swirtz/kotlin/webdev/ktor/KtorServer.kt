@@ -1,9 +1,8 @@
 package de.swirtz.kotlin.webdev.ktor
 
-import de.swirtz.kotlin.webdev.ktor.repo.Person
-import org.jetbrains.ktor.application.Application
-import org.jetbrains.ktor.host.embeddedServer
-import org.jetbrains.ktor.netty.Netty
+import io.ktor.application.Application
+import io.ktor.server.engine.embeddedServer
+import io.ktor.server.netty.Netty
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 

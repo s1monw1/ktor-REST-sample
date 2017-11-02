@@ -2,25 +2,20 @@ package de.swirtz.kotlin.webdev.ktor
 
 import de.swirtz.kotlin.webdev.ktor.repo.Person
 import de.swirtz.kotlin.webdev.ktor.repo.PersonRepo
+import io.ktor.application.*
+import io.ktor.features.CORS
+import io.ktor.features.ContentNegotiation
+import io.ktor.features.DefaultHeaders
+import io.ktor.gson.*
+import io.ktor.html.*
+import io.ktor.http.*
+import io.ktor.pipeline.*
+import io.ktor.request.receive
+import io.ktor.response.*
+import io.ktor.routing.*
 import kotlinx.html.*
-import org.jetbrains.ktor.application.Application
-import org.jetbrains.ktor.application.ApplicationCall
-import org.jetbrains.ktor.application.install
-import org.jetbrains.ktor.features.CORS
-import org.jetbrains.ktor.features.DefaultHeaders
-import org.jetbrains.ktor.gson.GsonSupport
-import org.jetbrains.ktor.html.respondHtml
-import org.jetbrains.ktor.http.ContentType
-import org.jetbrains.ktor.http.HttpStatusCode
-import org.jetbrains.ktor.pipeline.PipelineContext
-import org.jetbrains.ktor.request.receive
-import org.jetbrains.ktor.response.respond
-import org.jetbrains.ktor.response.respondText
-import org.jetbrains.ktor.routing.delete
-import org.jetbrains.ktor.routing.get
-import org.jetbrains.ktor.routing.post
-import org.jetbrains.ktor.routing.routing
 import java.time.Duration
+import java.text.DateFormat
 
 const val REST_ENDPOINT = "/persons"
 
@@ -31,8 +26,11 @@ fun Application.main() {
     install(CORS) {
         maxAge = Duration.ofDays(1)
     }
-    install(GsonSupport) {
-        setPrettyPrinting()
+    install(ContentNegotiation){
+        gson {
+            setDateFormat(DateFormat.LONG)
+            setPrettyPrinting()
+        }
     }
 
     routing {
@@ -43,7 +41,7 @@ fun Application.main() {
                 call.respond(PersonRepo.get(id))
             }
         }
-        get("$REST_ENDPOINT") {
+        get(REST_ENDPOINT) {
             errorAware {
                 LOG.debug("Get all Person entities")
                 call.respond(PersonRepo.getAll())
@@ -56,14 +54,14 @@ fun Application.main() {
                 call.respondSuccessJson(PersonRepo.remove(id))
             }
         }
-        delete("$REST_ENDPOINT") {
+        delete(REST_ENDPOINT) {
             errorAware {
                 LOG.debug("Delete all Person entities")
                 PersonRepo.clear()
                 call.respondSuccessJson()
             }
         }
-        post("$REST_ENDPOINT") {
+        post(REST_ENDPOINT) {
             errorAware {
                 val receive = call.receive<Person>()
                 println("Received Post Request: $receive")
@@ -86,7 +84,7 @@ fun Application.main() {
     }
 }
 
-private suspend fun <R> PipelineContext<*>.errorAware(block: suspend () -> R): R? {
+private suspend fun <R> PipelineContext<*, ApplicationCall>.errorAware(block: suspend () -> R): R? {
     return try {
         block()
     } catch (e: Exception) {
