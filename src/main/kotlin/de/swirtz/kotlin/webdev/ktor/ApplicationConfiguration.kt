@@ -2,13 +2,11 @@ package de.swirtz.kotlin.webdev.ktor
 
 import de.swirtz.kotlin.webdev.ktor.repo.Person
 import de.swirtz.kotlin.webdev.ktor.repo.PersonRepo
-import io.ktor.application.Application
-import io.ktor.application.ApplicationCall
-import io.ktor.application.install
+import io.ktor.application.*
 import io.ktor.features.CORS
 import io.ktor.features.ContentNegotiation
 import io.ktor.features.DefaultHeaders
-import io.ktor.gson.GsonConverter
+import io.ktor.gson.*
 import io.ktor.html.*
 import io.ktor.http.*
 import io.ktor.pipeline.*
@@ -17,6 +15,7 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import kotlinx.html.*
 import java.time.Duration
+import java.text.DateFormat
 
 const val REST_ENDPOINT = "/persons"
 
@@ -28,7 +27,10 @@ fun Application.main() {
         maxAge = Duration.ofDays(1)
     }
     install(ContentNegotiation){
-        register(ContentType.Application.Json, GsonConverter())
+        gson {
+            setDateFormat(DateFormat.LONG)
+            setPrettyPrinting()
+        }
     }
 
     routing {

@@ -1,8 +1,8 @@
 package de.swirtz.kotlin.webdev.ktor
 
 import io.ktor.application.Application
-import io.ktor.host.embeddedServer
-import io.ktor.netty.Netty
+import io.ktor.server.engine.embeddedServer
+import io.ktor.server.netty.Netty
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 

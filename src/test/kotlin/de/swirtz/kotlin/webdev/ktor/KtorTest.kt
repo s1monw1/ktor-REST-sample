@@ -6,9 +6,9 @@ import de.swirtz.kotlin.webdev.ktor.repo.PersonRepo
 import io.ktor.application.Application
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
-import io.ktor.testing.TestApplicationHost
-import io.ktor.testing.handleRequest
-import io.ktor.testing.withTestApplication
+import io.ktor.server.testing.TestApplicationEngine
+import io.ktor.server.testing.handleRequest
+import io.ktor.server.testing.withTestApplication
 import org.junit.After
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -72,7 +72,7 @@ class KtorTest {
 
     }
 
-    private fun TestApplicationHost.savePerson(person: String = content): Person {
+    private fun TestApplicationEngine.savePerson(person: String = content): Person {
         val post = handleRequest(HttpMethod.Post, REST_ENDPOINT) {
             body = person
             addHeader("Content-Type", json)
