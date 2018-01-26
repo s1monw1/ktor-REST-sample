@@ -1,11 +1,13 @@
 import org.gradle.jvm.tasks.Jar
+import org.gradle.kotlin.dsl.kotlin
+import org.gradle.kotlin.dsl.version
 import org.jetbrains.kotlin.gradle.dsl.Coroutines
 
-val kotlinVersion = "1.1.61"
+val kotlinVersion = "1.2.20"
 val ktorVersion = "0.9.0"
 
 plugins {
-    kotlin("jvm")
+    kotlin("jvm") version "1.2.20"
     application
 }
 
@@ -16,9 +18,11 @@ kotlin {
 repositories {
     jcenter()
     mavenCentral()
-    val bintray = "http://dl.bintray.com/kotlin"
-    maven { url = uri("$bintray/ktor") }
-    maven { url = uri("$bintray/kotlinx") }
+    "http://dl.bintray.com/kotlin".let {
+        maven { url = uri("$it/ktor") }
+        maven { url = uri("$it/kotlinx") }
+    }
+
 }
 
 dependencies {
