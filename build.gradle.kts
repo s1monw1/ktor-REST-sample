@@ -19,8 +19,8 @@ repositories {
     jcenter()
     mavenCentral()
     "http://dl.bintray.com/kotlin".let {
-        maven { url = uri("$it/ktor") }
-        maven { url = uri("$it/kotlinx") }
+        maven { setUrl("$it/ktor") }
+        maven { setUrl("$it/kotlinx") }
     }
 
 }
