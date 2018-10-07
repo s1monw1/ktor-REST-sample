@@ -74,7 +74,7 @@ fun Application.main() {
                     title("ktor Example Application")
                 }
                 body {
-                    h1 { +"Hello DZone Readers" }
+                    h1 { +"Hello Readers" }
                     p {
                         +"How are you doing?"
                     }

@@ -35,7 +35,6 @@ object PersonRepo  {
 
     fun remove(id: Int) = persons.remove(get(id))
 
-
     fun clear() = persons.clear()
 
 }

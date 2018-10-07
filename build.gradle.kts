@@ -3,11 +3,11 @@ import org.gradle.kotlin.dsl.kotlin
 import org.gradle.kotlin.dsl.version
 import org.jetbrains.kotlin.gradle.dsl.Coroutines
 
-val kotlinVersion = "1.2.20"
-val ktorVersion = "0.9.0"
+val kotlinVersion = "1.2.70"
+val ktorVersion = "0.9.5"
 
 plugins {
-    kotlin("jvm") version "1.2.20"
+    kotlin("jvm") version "1.2.70"
     application
 }
 

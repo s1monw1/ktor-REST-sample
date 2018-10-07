@@ -8,8 +8,8 @@ import org.slf4j.LoggerFactory
 
 val LOG: Logger = LoggerFactory.getLogger("ktor-app")
 
-val portArgName = "--server.port"
-val defaultPort = 8080
+const val portArgName = "--server.port"
+const val defaultPort = 8080
 
 fun main(args: Array<String>) {
     val portConfigured = args.isNotEmpty() && args[0].startsWith(portArgName)
