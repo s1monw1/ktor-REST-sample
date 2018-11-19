@@ -11,10 +11,6 @@ plugins {
     application
 }
 
-kotlin {
-    experimental.coroutines = Coroutines.ENABLE
-}
-
 repositories {
     jcenter()
     mavenCentral()
