@@ -20,5 +20,3 @@ fun main(args: Array<String>) {
     } else defaultPort
     embeddedServer(Netty, port, module = Application::main).start(wait = true)
 }
-
-

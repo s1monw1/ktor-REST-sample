@@ -8,6 +8,7 @@ import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.testing.TestApplicationEngine
 import io.ktor.server.testing.handleRequest
+import io.ktor.server.testing.setBody
 import io.ktor.server.testing.withTestApplication
 import org.junit.After
 import org.junit.Test
@@ -40,9 +41,9 @@ class KtorTest {
         }.response.let {
             assertEquals(HttpStatusCode.OK, it.status())
             val response = gson.fromJson(it.content, Array<Person>::class.java)
-            response.forEach { println(it) }
-            response.find { it.name == person.name } ?: fail()
-            response.find { it.name == person2.name } ?: fail()
+            response.forEach { r -> println(r) }
+            response.find { r -> r.name == person.name } ?: fail()
+            response.find { r -> r.name == person2.name } ?: fail()
         }
         assertEquals(2, PersonRepo.getAll().size)
     }
@@ -74,7 +75,7 @@ class KtorTest {
 
     private fun TestApplicationEngine.savePerson(person: String = content): Person {
         val post = handleRequest(HttpMethod.Post, REST_ENDPOINT) {
-            body = person
+            setBody(person)
             addHeader("Content-Type", json)
             addHeader("Accept", json)
 

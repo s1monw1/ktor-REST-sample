@@ -3,11 +3,11 @@ import org.gradle.kotlin.dsl.kotlin
 import org.gradle.kotlin.dsl.version
 import org.jetbrains.kotlin.gradle.dsl.Coroutines
 
-val kotlinVersion = "1.2.70"
-val ktorVersion = "0.9.5"
+val kotlinVersion = "1.3.10"
+val ktorVersion = "1.0.0"
 
 plugins {
-    kotlin("jvm") version "1.2.70"
+    kotlin("jvm") version "1.3.10"
     application
 }
 
@@ -27,18 +27,18 @@ repositories {
 
 dependencies {
 
-    fun ktor(s: String = "", v: String) = "io.ktor:ktor$s:$v"
+    fun ktor(s: String = "", v: String = ktorVersion) = "io.ktor:ktor$s:$v"
 
-    compile(kotlin("stdlib-jre8", kotlinVersion))
-    compile("org.jetbrains.kotlinx:kotlinx-html-jvm:0.6.4")
-    compile(ktor(v = ktorVersion))
-    compile(ktor("-gson", ktorVersion))
-    compile(ktor("-html-builder", ktorVersion))
-    compile(ktor("-server-netty", ktorVersion))
+    compile(kotlin("stdlib-jdk8", kotlinVersion))
+    compile("org.jetbrains.kotlinx:kotlinx-html-jvm:0.6.10")
+    compile(ktor())
+    compile(ktor("-gson"))
+    compile(ktor("-html-builder"))
+    compile(ktor("-server-netty"))
     compile("ch.qos.logback:logback-classic:1.2.1")
     compile("org.slf4j:slf4j-api:1.7.25")
 
-    testCompile(ktor("-server-test-host", ktorVersion))
+    testCompile(ktor("-server-test-host"))
     testCompile("junit:junit:4.12")
 }
 
